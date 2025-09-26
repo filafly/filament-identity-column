@@ -1,0 +1,53 @@
+{
+  "name": "filafly/filament-identity-column",
+  "description": "A column for Filament Tables to which combines an avatar, name and description.",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "Laravel",
+    "Filament",
+    "tables",
+    "column",
+    "identity"
+  ],
+  "homepage": "https://filafly.com/plugins/filament-identity-column",
+  "authors": [
+    {
+      "role": "Developer",
+      "name": "Nolan Nordlund",
+      "email": "nolan@filafly.com",
+      "homepage": "https://www.filafly.com/"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "filament/filament": "^4.0",
+    "spatie/laravel-package-tools": "^1.92"
+  },
+  "autoload": {
+    "psr-4": {
+      "Filafly\\IdentityColumn\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Filafly\\IdentityColumn\\IdentityColumnServiceProvider"
+      ]
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true
+  },
+  "require-dev": {
+    "laravel/pint": "^1.22",
+    "phpunit/phpunit": "^12.3"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Filafly\\IdentityColumn\\Tests\\": "tests/"
+    }
+  }
+}
