@@ -1,15 +1,13 @@
 <?php
 
-namespace Filafly\IdentityColumn\Tables\Columns;
+namespace Filafly\IdentityColumn\Infolists\Components;
 
 use Closure;
+use Filament\Infolists\Components\TextEntry;
 use Filament\Support\Enums\TextSize;
-use Filament\Tables\Columns\TextColumn;
 
-class IdentityColumn extends TextColumn
+class IdentityEntry extends TextEntry
 {
-    protected string $view = 'filafly-identity-column::columns.identity-column';
-
     protected string|Closure|null $avatar = null;
 
     protected string|Closure|null $primary = null;
@@ -28,19 +26,6 @@ class IdentityColumn extends TextColumn
 
     protected string|Closure|null $avatarSize = null; // CSS size like '2rem' or '32px'
 
-    public static function make(?string $name = null): static
-    {
-        $column = parent::make($name);
-
-        $column
-            ->label('ID')
-            ->sortable()
-            ->searchable()
-            ->toggleable(isToggledHiddenByDefault: false);
-
-        return $column;
-    }
-
     /**
      * Set an avatar image URL to render alongside the value.
      */
@@ -53,7 +38,7 @@ class IdentityColumn extends TextColumn
 
     /**
      * Set the primary identifier attribute path (e.g., 'name' or 'user.name').
-     * Falls back to the column state if not set.
+     * Falls back to the entry state if not set.
      */
     public function primary(string|Closure $attribute): static
     {
@@ -143,7 +128,6 @@ class IdentityColumn extends TextColumn
             return null;
         }
 
-        // Resolve against record if it's an attribute path; fall back to the literal string.
         $record = $this->getRecord();
         if ($record) {
             $resolved = data_get($record, (string) $avatar);
@@ -152,7 +136,6 @@ class IdentityColumn extends TextColumn
             }
         }
 
-        // Treat as absolute (or protocol-relative) URL if valid; otherwise return as-is.
         if (is_string($avatar) && (filter_var($avatar, FILTER_VALIDATE_URL) || str_starts_with($avatar, '/'))) {
             return $avatar;
         }
@@ -222,9 +205,7 @@ class IdentityColumn extends TextColumn
         return (string) $value;
     }
 
-    /**
-     * Resolve the primary URL from string/Closure/attribute path.
-     */
+    /** Resolve the primary URL from string/Closure/attribute path. */
     public function getPrimaryUrl(): ?string
     {
         $url = $this->evaluate($this->primaryUrl);
@@ -249,9 +230,7 @@ class IdentityColumn extends TextColumn
         return (bool) $this->evaluate($this->shouldOpenPrimaryUrlInNewTab);
     }
 
-    /**
-     * Resolve the secondary URL from string/Closure/attribute path.
-     */
+    /** Resolve the secondary URL from string/Closure/attribute path. */
     public function getSecondaryUrl(): ?string
     {
         $url = $this->evaluate($this->secondaryUrl);
@@ -322,7 +301,7 @@ class IdentityColumn extends TextColumn
 
     public function getSize(mixed $state): TextSize | string
     {
-        // Mirror parent logic, with a default of Medium instead of Small.
+        // Mirror TextEntry::getSize, but default to Medium.
         $size = $this->evaluate($this->size, [
             'state' => $state,
         ]);
@@ -340,5 +319,25 @@ class IdentityColumn extends TextColumn
         }
 
         return $size;
+    }
+
+    public function toEmbeddedHtml(): string
+    {
+        $html = view('filafly-identity-column::entries.identity-entry', [
+            'getState' => fn () => $this->getState(),
+            'getAvatar' => fn () => $this->getAvatar(),
+            'getPrimary' => fn () => $this->getPrimary(),
+            'getSecondary' => fn () => $this->getSecondary(),
+            'getPrimaryUrl' => fn () => $this->getPrimaryUrl(),
+            'shouldOpenPrimaryUrlInNewTab' => fn () => $this->shouldOpenPrimaryUrlInNewTab(),
+            'getSecondaryUrl' => fn () => $this->getSecondaryUrl(),
+            'shouldOpenSecondaryUrlInNewTab' => fn () => $this->shouldOpenSecondaryUrlInNewTab(),
+            'getAvatarShape' => fn () => $this->getAvatarShape(),
+            'getAvatarSize' => fn () => $this->getAvatarSize(),
+            'getUrl' => fn () => $this->getUrl(),
+            'getVisualSize' => fn () => $this->getVisualSize(),
+        ])->render();
+
+        return $this->wrapEmbeddedHtml($html);
     }
 }

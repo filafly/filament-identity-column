@@ -9,8 +9,7 @@
     'shouldOpenSecondaryUrlInNewTab' => null,
     'getAvatarShape' => null,
     'getAvatarSize' => null,
-    'getUrl' => null,
-    'shouldOpenUrlInNewTab' => null,
+    'getUrl' => null, // Entry-level wrapper URL
     'getVisualSize' => null,
 ])
 
@@ -23,13 +22,13 @@
 @php($primaryFs = $sizes[$visualSize]['primary'] ?? '1rem')
 @php($secondaryFs = $sizes[$visualSize]['secondary'] ?? '.75rem')
 @php($sizeClass = 'fi-identity--' . $visualSize)
-<div class="fi-identity {{ $sizeClass }}" style="--fi-identity-primary-size: {{ $primaryFs }}; --fi-identity-secondary-size: {{ $secondaryFs }};">
+<div class="fi-identity {{ $sizeClass }}"
+    style="--fi-identity-primary-size: {{ $primaryFs }}; --fi-identity-secondary-size: {{ $secondaryFs }};">
     @if ($getAvatar && filled($getAvatar()))
-        @php($shape = $getAvatarShape())
-        @php($size = $getAvatarSize())
+@php($shape = $getAvatarShape())
+@php($size = $getAvatarSize())
         <img src="{{ $getAvatar() }}" alt="" class="fi-identity__avatar fi-identity__avatar--{{ $shape }}"
-            style="min-width: {{ $size }}; min-height: {{ $size }}; width: {{ $size }}; height: {{ $size }};"
-            loading="lazy" />
+            style="width: {{ $size }}; height: {{ $size }};" loading="lazy" />
     @endif
 
     <div class="fi-identity__text">
@@ -37,7 +36,7 @@
         @php($wrapperUrl = $getUrl ? $getUrl() : null)
 
         @if (!$wrapperUrl && filled($getPrimaryUrl()))
-            <a href="{{ $getPrimaryUrl() }}" class="fi-identity__primary fi-identity__primary--link"
+            <a href="{{ $getPrimaryUrl() }}" class="fi-identity__primary"
                 @if ($shouldOpenPrimaryUrlInNewTab && $shouldOpenPrimaryUrlInNewTab()) target="_blank" rel="noopener noreferrer" @endif>
                 {{ $primaryText }}
             </a>
@@ -48,7 +47,7 @@
         @if ($getSecondary && filled($getSecondary()))
             @php($secondaryText = $getSecondary())
             @if (!$wrapperUrl && filled($getSecondaryUrl()))
-                <a href="{{ $getSecondaryUrl() }}" class="fi-identity__secondary fi-identity__secondary--link"
+                <a href="{{ $getSecondaryUrl() }}" class="fi-identity__secondary"
                     @if ($shouldOpenSecondaryUrlInNewTab && $shouldOpenSecondaryUrlInNewTab()) target="_blank" rel="noopener noreferrer" @endif>
                     {{ $secondaryText }}
                 </a>

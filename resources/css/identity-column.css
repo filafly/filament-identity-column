@@ -1,11 +1,19 @@
-.fi-identity{display:inline-flex;align-items:center;gap:.5rem}
+.fi-identity{display:inline-flex;align-items:center;gap:.5rem;--fi-identity-primary-size:1rem;--fi-identity-secondary-size:.75rem}
 .fi-identity__avatar{flex:none}
 .fi-identity__avatar--square{border-radius:0}
 .fi-identity__avatar--rounded{border-radius:.25rem}
 .fi-identity__avatar--circular{border-radius:9999px}
 .fi-identity__text{display:flex;flex-direction:column;line-height:1.2}
-.fi-identity__primary{font-weight:500}
+.fi-identity__primary{font-weight:500;font-size:var(--fi-identity-primary-size)}
 .fi-identity__primary--link:hover{text-decoration:underline}
-.fi-identity__secondary{font-size:.75rem;color:var(--fi-color-gray-500,#6b7280);margin-top:.25rem}
+.fi-identity__secondary{color:var(--fi-color-gray-500,#6b7280);margin-top:.25rem;font-size:var(--fi-identity-secondary-size)}
 .fi-identity__secondary--link:hover{text-decoration:underline}
 @media (prefers-color-scheme:dark){.fi-identity__secondary{color:var(--fi-color-gray-400,#9ca3af)}}
+
+/* Size modifiers for text; avatar size is set inline via style to match the chosen size. */
+.fi-identity--sm .fi-identity__primary{font-size:.875rem}
+.fi-identity--sm .fi-identity__secondary{font-size:.75rem}
+.fi-identity--md .fi-identity__primary{font-size:1rem}
+.fi-identity--md .fi-identity__secondary{font-size:.75rem}
+.fi-identity--lg .fi-identity__primary{font-size:1.125rem}
+.fi-identity--lg .fi-identity__secondary{font-size:.875rem}
