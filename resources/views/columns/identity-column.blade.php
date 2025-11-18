@@ -12,6 +12,7 @@
     'getUrl' => null,
     'shouldOpenUrlInNewTab' => null,
     'getVisualSize' => null,
+    'getExtraAttributes' => null,
 ])
 
 @php($visualSize = $getVisualSize())
@@ -23,7 +24,16 @@
 @php($primaryFs = $sizes[$visualSize]['primary'] ?? '1rem')
 @php($secondaryFs = $sizes[$visualSize]['secondary'] ?? '.75rem')
 @php($sizeClass = 'fi-identity--' . $visualSize)
-<div class="fi-identity {{ $sizeClass }}" style="--fi-identity-primary-size: {{ $primaryFs }}; --fi-identity-secondary-size: {{ $secondaryFs }};">
+<div
+    {{
+        $attributes
+            ->merge([
+                'class' => 'fi-identity ' . $sizeClass,
+                'style' => "--fi-identity-primary-size: $primaryFs; --fi-identity-secondary-size: $secondaryFs;"
+            ], escape: false)
+            ->merge($getExtraAttributes(), escape: false)
+    }}
+>
     @if ($getAvatar && filled($getAvatar()))
         @php($shape = $getAvatarShape())
         @php($size = $getAvatarSize())
