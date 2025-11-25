@@ -30,15 +30,7 @@ class IdentityColumn extends TextColumn
 
     public static function make(?string $name = null): static
     {
-        $column = parent::make($name);
-
-        $column
-            ->label('ID')
-            ->sortable()
-            ->searchable()
-            ->toggleable(isToggledHiddenByDefault: false);
-
-        return $column;
+        return parent::make($name);
     }
 
     /**
