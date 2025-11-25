@@ -1,5 +1,5 @@
 .fi-identity{display:inline-flex;align-items:center;gap:.5rem;--fi-identity-primary-size:1rem;--fi-identity-secondary-size:.75rem}
-.fi-identity__avatar{flex:none}
+.fi-identity__avatar{flex:none;object-fit:cover}
 .fi-identity__avatar--square{border-radius:0}
 .fi-identity__avatar--rounded{border-radius:.25rem}
 .fi-identity__avatar--circular{border-radius:9999px}
