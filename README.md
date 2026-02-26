@@ -29,7 +29,7 @@ IdentityEntry::make('name')
 ## Requirements
 
 - PHP 8.2+
-- Filament 4.x
+- Filament 4.x or 5.x
 - Laravel (package auto-discovery enabled)
 
 ## Installation
